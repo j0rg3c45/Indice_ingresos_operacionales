@@ -7,6 +7,13 @@
   - Usar `uv venv` para crear entornos virtuales
   - Usar `uvx` para ejecutar herramientas sin instalarlas globalmente
   - Usar `uv run` para ejecutar scripts con el entorno activo
+- **Ambiente Conda** — Existe un ambiente conda configurado con todas las dependencias del proyecto
+- **Python 3.12** — Version instalada en el sistema
+
+## Entorno de ejecucion
+
+- Local: Windows, uv + conda disponibles, ejecutar directamente con `uv run` o `python`
+- Colab: El notebook `02_carga_datos_mapa.ipynb` detecta automaticamente si esta en Colab y clona el repo
 
 ## Comandos rapidos
 
