@@ -53,3 +53,18 @@ git push
 - Repositorio: https://github.com/j0rg3c45/Indice_ingresos_operacionales.git
 - Rama: main
 - No esperar a que el usuario lo pida. Hacerlo automaticamente.
+
+## Actualizacion de contexto - Regla obligatoria
+
+Cada cambio en el proyecto DEBE desencadenar la actualizacion de los archivos relacionados:
+
+| Si cambias... | Actualiza tambien... |
+|---------------|---------------------|
+| Codigo (.py, .ipynb) | README.md, referencia tecnica, reportes en outputs/ |
+| Datos o estructura de datos | docs/metodologia.md, agent/context/contexto_proyecto.md |
+| Zonas de estudio | agent/context/zonas_estudio.md |
+| Dependencias o entorno | requirements.txt, environment.yml, agent/README.md |
+| Indicadores o metricas | outputs/indicadores_territorio_cali.txt, docs/metodologia.md |
+| Metodologia | agent/knowledge_base/, agent/context/glosario.md |
+
+Mantener SIEMPRE la coherencia entre codigo, documentacion y contexto del agente.
