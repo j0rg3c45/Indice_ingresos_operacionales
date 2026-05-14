@@ -1,58 +1,80 @@
-# Contexto para agente - Proyecto ITT
+# Contexto del Proyecto - Indice de Ingresos Operacionales
 
-Este agente apoya consulta, interpretacion y explicacion del **Indice de Transformacion Territorial (ITT)** dentro del repositorio `itt-transformacion-territorial`.
+## Repositorio
+
+- URL: https://github.com/j0rg3c45/Indice_ingresos_operacionales.git
+- Rama: main
+- Equipo: ITT Cali Inteligente - Gobierno de Datos
 
 ## Objetivo del proyecto
 
-Calcular el ITT para zonas de intervencion urbana en Cali y comparar resultados entre zonas.
+Construir un indice de ingresos operacionales a partir del Registro Mercantil 2025 de Cali,
+que permita medir y comparar la actividad economica por territorio (comunas, barrios)
+y hacer seguimiento en el tiempo como insumo para el Indice de Transformacion Territorial (ITT).
 
-## Zonas del repo
+## Relacion con el ITT
 
-- ITT Roosevelt.
-- Avenida Ciudad de Cali.
-- Barrio Obrero.
+Este proyecto alimenta la **dimension economica** del ITT. Los indicadores derivados son:
+- Densidad empresarial por comuna
+- Ingresos promedio/mediana por zona
+- Tasa de microempresas
+- Empleo promedio por empresa
+- Concentracion de empleo formal
+- Indice de diversidad economica (CIIU)
+- Tasa de nuevas matriculas (dinamismo)
 
-## Estado actual
+## Datos disponibles
 
-- `01_itt_roosevelt.ipynb`: implementado con estructura homologada a Barrio Obrero y `ref_min/ref_max` fijos.
-- `02_itt_avenida_ciudad_de_cali.ipynb`: implementado, pero aun usa min-max relativo en la normalizacion de indicadores reales.
-- `03_itt_barrio_obrero.ipynb`: implementado y alineado con `ref_min/ref_max` fijos.
-- `04_itt_pulmon_oriente_2026.ipynb`: salida parcial de seguimiento.
-- `05_comparativo_itt_zonas.ipynb`: plantilla comparativa.
+### Registro Mercantil 2025
+- Archivo: `data/Registro mercantil 2025_.xlsx`
+- Registros: 122,535
+- Columnas: 17
+- Ciudad: Cali (100%)
+- Periodo: Matriculas historicas con renovacion a marzo 2025
 
-## Regla metodologica para agentes
+### GeoJSON de comunas
+- Archivo: `data/info_geo/geojson_comunas/Comunas.geojson`
+- Poligonos: 22 comunas urbanas de Cali
+- CRS: EPSG:4326
+- Columnas: comuna (int), nombre, area, geometry
 
-La referencia metodologica vigente del proyecto esta en:
+## Estado actual de implementacion
 
-- `agent/knowledge_base/Guia_ITT_Metodologia_Notebook.md`
+| Componente | Estado | Archivo |
+|-----------|--------|---------|
+| Analisis exploratorio | Completo | notebooks_py/01_analisis_exploratorio.py |
+| Carga datos + mapas | Completo | notebooks_py/02_carga_datos_mapa.ipynb |
+| Indicadores por comuna | Completo | Calculados en notebook 02 |
+| Cruce con GeoJSON | Completo | 22 comunas mapeadas |
+| Mapas coropleticos | Completo | Estaticos (PNG) + interactivo (HTML) |
+| Reporte EDA | Completo | outputs/reporte_analisis_exploratorio.txt |
+| Reporte consolidado | Completo | outputs/consolidado.txt |
+| Indicadores territorio | Propuesta | outputs/indicadores_territorio_cali.txt |
+| Indice compuesto | Pendiente | Por definir formula y ponderaciones |
+| Seguimiento temporal | Pendiente | Requiere datos de multiples periodos |
 
-Los agentes deben asumir como correcto:
+## Hallazgos clave del dataset
 
-- Uso de `ref_min/ref_max` fijos.
-- Referentes provisionales para dimensiones sin datos propios.
-- Necesidad de escalar refs segun tamano de zona.
+- 95.1% son microempresas
+- 58.7% son persona natural
+- 14.6% no reportan ingresos (nulos)
+- 51.7% reportan ingresos = $0
+- Top comunas: Comuna 02 (11.4%), Comuna 17 (10.8%), Comuna 03 (9.0%)
+- Top sector: Comercio al por mayor y menor (35.3%)
+- Ingreso promedio: $1,148M (sesgado por grandes empresas)
+- Ingreso mediana: $0 (mayoria sin ingresos reportados)
 
-Los agentes no deben asumir como vigente:
+## Entorno de ejecucion
 
-- Min-max relativo como metodo recomendado general.
+- Local: Windows, uv + conda disponibles
+- Colab: Notebook 02 detecta automaticamente y clona el repo
+- Python: 3.12
+- Dependencias: pandas, openpyxl, numpy, matplotlib, seaborn, geopandas, folium
 
-## Uso esperado por el agente
+## Reglas del agente
 
-El agente debe diferenciar entre:
-
-- Metodologia vigente.
-- Implementacion ya migrada.
-- Implementacion pendiente de migrar.
-- Datos presentes en el repo.
-- Datos esperados pero no versionados.
-
-## Seguimiento reciente
-
-- Roosevelt ya dispone de datos fuente en `data/itt_roosevelt/`.
-- Se revisaron errores de consistencia por `ano` y `año`; la convencion vigente en Roosevelt es `año`.
-- Se agregaron Excel de vivienda en `data/referencia/` para evaluar si `Entorno Urbano` puede dejar de depender de un referente fijo.
-- `03_itt_barrio_obrero.ipynb` ya usa experimentalmente `BD_DEFICIT_HABITACIONAL_COM_CORREG_2024 (1).xlsx` para recalcular `Entorno Urbano` con `Comuna 9` como proxy territorial.
-- Ese insumo de `Entorno Urbano` es un corte anual `2024`; la visualizacion reciente recomendada es un `heatmap` de componentes del deficit cualitativo.
-- Para Pulmon de Oriente 2026, se implemento deduplicacion por fecha+coordenada y generacion de valores Proxy para Q2, Q3 y Q4 basados en promedio historico trimestral 2023-2025.
-- Los valores Proxy se marcan con doble asterisco (`**`) en todas las salidas.
-- Referencia metodologica completa: `docs/05_nota_metodologica_proxy_2026.md`.
+1. Cada cambio debe desencadenar actualizacion de contextos, .md y reportes
+2. Cada cambio debe hacer commit + push automaticamente
+3. Sin emojis en codigo
+4. Formato abreviado en ejes (1K, 1M, 1B)
+5. Reportes en texto plano (.txt) en outputs/

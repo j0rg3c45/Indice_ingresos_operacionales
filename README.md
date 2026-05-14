@@ -1,68 +1,103 @@
 # Indice de Ingresos Operacionales
 
-Proyecto de analisis y gobierno de datos sobre ingresos operacionales a partir del Registro Mercantil.
+Proyecto de analisis y gobierno de datos sobre ingresos operacionales a partir del Registro Mercantil 2025 de Santiago de Cali. Alimenta la dimension economica del Indice de Transformacion Territorial (ITT).
 
 ## Estructura del proyecto
 
 ```
 Indice_ingresos_operacionales/
-├── README.md                 # Descripcion general del proyecto
-├── requirements.txt          # Dependencias Python (pip)
-├── environment.yml           # Entorno Conda
-├── .gitignore                # Archivos excluidos del control de versiones
-├── agent/                    # Notas del entorno y automatizacion
-├── data/                     # Datos crudos y procesados
-├── notebooks_py/             # Scripts de analisis
-│   └── 01_analisis_exploratorio.py
-├── outputs/                  # Resultados, reportes y visualizaciones
-│   └── reporte_analisis_exploratorio.txt
-└── docs/                     # Documentacion del proyecto
-    ├── diccionario.txt       # Diccionario de datos
-    └── metodologia.md        # Metodologia del indice
+├── README.md
+├── requirements.txt
+├── environment.yml
+├── .gitignore
+├── agent/
+│   ├── README.md                          # Convenciones, entorno, reglas git
+│   ├── context/
+│   │   ├── contexto_proyecto.md           # Contexto general del proyecto
+│   │   ├── zonas_estudio.md               # Zonas ITT de referencia
+│   │   └── glosario.md                    # Glosario de terminos
+│   ├── knowledge_base/
+│   │   └── Guia_ITT_Metodologia_Notebook.md
+│   └── prompts/
+│       └── system_prompt.md               # Reglas del agente
+├── data/
+│   ├── Registro mercantil 2025_.xlsx      # Fuente principal (122,535 registros)
+│   └── info_geo/
+│       ├── Comunas.zip
+│       └── geojson_comunas/
+│           └── Comunas.geojson            # 22 comunas de Cali
+├── notebooks_py/
+│   ├── 01_analisis_exploratorio.py        # Analisis EDA completo
+│   ├── 02_carga_datos_mapa.ipynb          # Carga desde git + mapas geograficos
+│   └── referencia_Indice_ingresos_operacionales.md
+├── outputs/
+│   ├── reporte_analisis_exploratorio.txt  # Reporte EDA
+│   ├── consolidado.txt                    # Reporte consolidado con indicadores por comuna
+│   ├── indicadores_territorio_cali.txt    # Propuesta de indicadores territoriales
+│   └── *.png                              # Graficos generados
+└── docs/
+    ├── diccionario.txt
+    └── metodologia.md
 ```
 
 ## Datos fuente
 
-- Registro Mercantil 2025 (`.xlsx`)
-- Diccionario de datos (`diccionario.txt`)
+| Archivo | Registros | Descripcion |
+|---------|-----------|-------------|
+| Registro mercantil 2025_.xlsx | 122,535 | Matriculas mercantiles de Cali |
+| Comunas.geojson | 22 poligonos | Comunas urbanas de Cali |
 
 ## Ejecucion
 
-Este proyecto usa **uv** como gestor de paquetes Python.
+Este proyecto usa **uv** como gestor de paquetes Python. Tambien hay un ambiente conda disponible.
 
 ```bash
 # Instalar dependencias
 uv pip install -r requirements.txt
 
-# Ejecutar analisis exploratorio
+# Ejecutar analisis exploratorio (genera graficos PNG + reporte .txt)
 uv run notebooks_py/01_analisis_exploratorio.py
+
+# Notebook de mapas (ejecutar en Jupyter o Colab)
+# notebooks_py/02_carga_datos_mapa.ipynb
 ```
 
-## Script de analisis exploratorio
+## Scripts y notebooks
 
-El archivo `notebooks_py/01_analisis_exploratorio.py` realiza:
+### 01_analisis_exploratorio.py
 
-1. Carga y normalizacion de datos del Excel
-2. Informacion general del dataset (tipos, primeras filas, estadisticas)
-3. Reporte de valores nulos
-4. Reporte de valores unicos y repetidos por columna
-5. Detalle de top 15 valores por columna categorica
-6. Deteccion de filas duplicadas
-7. Graficos basicos con formato abreviado en ejes (1M, 500K, etc.):
-   - Distribucion de ingresos operacionales (histograma + boxplot)
-   - Distribucion en escala logaritmica
-   - Distribucion por tamano de empresa
-   - Estado (activa/inactiva)
-   - Nueva vs Renovada
-   - Top 15 comunas
-   - Top 15 actividades CIIU
-   - Distribucion de empleo
-   - Ingresos por tamano (boxplot comparativo)
-   - Matriz de correlacion
-   - Valores nulos por columna
-8. Genera reporte `.txt` con todas las tablas en `outputs/`
+Analisis exploratorio completo del Registro Mercantil:
+- Carga y normalizacion de 17 columnas
+- Reporte de valores nulos, unicos y repetidos
+- 11 graficos con formato abreviado (1K, 1M, 1B)
+- Genera `outputs/reporte_analisis_exploratorio.txt`
+
+### 02_carga_datos_mapa.ipynb
+
+Carga de datos desde git y visualizacion geografica:
+- Detecta entorno (Colab clona el repo, local usa carpeta directa)
+- Calcula indicadores economicos por comuna (empresas, ingresos, empleo, % micro, diversidad CIIU)
+- Cruza datos con GeoJSON de 22 comunas
+- Genera mapas coropleticos (estaticos + interactivo Folium)
+- Tablas formateadas de indicadores
+- Genera `outputs/consolidado.txt`
 
 ## Salidas
 
-- **Graficos**: Se muestran en pantalla (exportacion a PNG comentada, descomentar cuando se necesite)
-- **Reporte**: `outputs/reporte_analisis_exploratorio.txt` con tablas completas
+| Archivo | Contenido |
+|---------|-----------|
+| reporte_analisis_exploratorio.txt | EDA completo con estadisticas y valores unicos |
+| consolidado.txt | Indicadores por comuna, sectores, CIIU, estadisticas |
+| indicadores_territorio_cali.txt | Propuesta de indicadores medibles en el tiempo |
+| *.png | Graficos de distribucion, mapas coropleticos |
+| mapa_interactivo_comunas.html | Mapa Folium con tooltips por comuna |
+
+## Relacion con el ITT
+
+Este proyecto alimenta la dimension economica del ITT:
+- Densidad empresarial por comuna
+- Ingresos promedio por zona
+- Tasa de microempresas
+- Empleo formal por territorio
+- Diversidad economica (CIIU)
+- Dinamismo (nuevas matriculas)

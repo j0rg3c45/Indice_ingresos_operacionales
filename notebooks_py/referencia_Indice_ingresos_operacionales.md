@@ -191,20 +191,32 @@ Los valores grandes se abrevian automaticamente:
 
 ## 7. Salidas del Proyecto
 
-### 7.1 Reporte de texto
+### 7.1 Reporte de texto (EDA)
 
 - **Archivo:** `outputs/reporte_analisis_exploratorio.txt`
 - **Contenido:** Tablas consolidadas de todo el analisis (info general, estadisticas, nulos, unicos/repetidos, top categoricas, duplicados)
 
-### 7.2 Indicadores de territorio
+### 7.2 Reporte consolidado (indicadores por comuna)
+
+- **Archivo:** `outputs/consolidado.txt`
+- **Contenido:** Indicadores economicos por comuna, cruce con GeoJSON, top sectores, top CIIU, estadisticas de ingresos y empleo
+- **Generado por:** Notebook 02, celda 12
+
+### 7.3 Indicadores de territorio
 
 - **Archivo:** `outputs/indicadores_territorio_cali.txt`
 - **Contenido:** Propuesta de indicadores territoriales medibles en el tiempo por zona/comuna
 
-### 7.3 Graficos PNG
+### 7.4 Graficos PNG
 
 - **Directorio:** `outputs/`
 - **Formato:** PNG 150 DPI
+- **Incluye:** Mapas coropleticos (densidad empresarial, ingresos, empleo)
+
+### 7.5 Mapa interactivo
+
+- **Archivo:** `outputs/mapa_interactivo_comunas.html`
+- **Contenido:** Mapa Folium con tooltips por comuna, capas base multiples
 
 ---
 
@@ -233,19 +245,39 @@ para generar mapas coropleticos y analisis por zona de intervencion ITT.
 
 ```
 Indice_ingresos_operacionales/
-├── README.md                 # Descripcion general del proyecto
-├── requirements.txt          # Dependencias Python (pip)
-├── environment.yml           # Entorno Conda
-├── .gitignore                # Archivos excluidos del control de versiones
-├── agent/                    # Notas del entorno y automatizacion
-├── data/                     # Datos crudos y procesados
-├── notebooks_py/             # Scripts de analisis
-│   └── 01_analisis_exploratorio.py
-├── outputs/                  # Resultados, reportes y visualizaciones
-│   └── reporte_analisis_exploratorio.txt
-└── docs/                     # Documentacion del proyecto
-    ├── diccionario.txt       # Diccionario de datos
-    └── metodologia.md        # Metodologia del indice
+├── README.md
+├── requirements.txt
+├── environment.yml
+├── .gitignore
+├── agent/
+│   ├── README.md
+│   ├── context/
+│   │   ├── contexto_proyecto.md
+│   │   ├── zonas_estudio.md
+│   │   └── glosario.md
+│   ├── knowledge_base/
+│   │   └── Guia_ITT_Metodologia_Notebook.md
+│   └── prompts/
+│       └── system_prompt.md
+├── data/
+│   ├── Registro mercantil 2025_.xlsx (versionado)
+│   └── info_geo/
+│       ├── Comunas.zip
+│       └── geojson_comunas/
+│           └── Comunas.geojson (22 comunas)
+├── notebooks_py/
+│   ├── 01_analisis_exploratorio.py
+│   ├── 02_carga_datos_mapa.ipynb
+│   └── referencia_Indice_ingresos_operacionales.md
+├── outputs/
+│   ├── reporte_analisis_exploratorio.txt
+│   ├── consolidado.txt
+│   ├── indicadores_territorio_cali.txt
+│   ├── mapa_interactivo_comunas.html
+│   └── *.png (graficos y mapas)
+└── docs/
+    ├── diccionario.txt
+    └── metodologia.md
 ```
 
 ---
@@ -258,11 +290,14 @@ openpyxl>=3.1
 numpy>=1.24
 matplotlib>=3.7
 seaborn>=0.12
+geopandas>=0.14
+folium>=0.15
+mapclassify>=2.6
 ```
 
 ### Gestor de paquetes
 
-Este proyecto usa **uv** como gestor de paquetes Python.
+Este proyecto usa **uv** como gestor de paquetes Python. Tambien hay un ambiente conda disponible.
 
 ```bash
 uv pip install -r requirements.txt
