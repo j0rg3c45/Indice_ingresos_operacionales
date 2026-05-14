@@ -30,4 +30,19 @@ uv run notebooks_py/01_analisis_exploratorio.py
 - Sin emojis ni caracteres especiales en el codigo
 - Formato abreviado en ejes de graficos (1K, 1M, 1B)
 - Reportes de texto plano (.txt) en outputs/
-- Exportacion de graficos (.png) comentada por defecto, descomentar cuando se necesite
+- Exportacion de graficos (.png) en outputs/
+- **Despues de cada cambio, SIEMPRE hacer commit y push al repositorio git**
+
+## Git - Regla obligatoria
+
+Despues de cualquier modificacion (crear, editar o eliminar archivos), ejecutar:
+
+```bash
+git add .
+git commit -m "descripcion breve del cambio"
+git push
+```
+
+- Repositorio: https://github.com/j0rg3c45/Indice_ingresos_operacionales.git
+- Rama: main
+- No esperar a que el usuario lo pida. Hacerlo automaticamente.
