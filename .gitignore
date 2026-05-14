@@ -1,8 +1,6 @@
 # Datos grandes y archivos binarios
-data/*.xlsx
+# (El .xlsx se versiona para que Colab pueda cargarlo desde el repo)
 data/*.csv
-*.xlsx
-*.xls
 
 # Python
 __pycache__/
