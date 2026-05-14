@@ -1,0 +1,12 @@
+
+
+1. Ciiu 
+2. Tamaño
+3. empleo 
+4. Dirección obviamente 
+5. Estado activa 
+6. Nueva renovada
+7 comuna 
+8.barrio
+9. Fecha isnscripcion
+10. Ingresos operacionales

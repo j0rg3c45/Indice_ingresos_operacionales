@@ -1,0 +1,264 @@
+======================================================================
+INDICADORES TERRITORIALES PARA CALI - MEDIBLES EN EL TIEMPO
+======================================================================
+Proyecto: Indice de Ingresos Operacionales / ITT
+Fecha: Mayo 2026
+Fuente base: Registro Mercantil 2025 + Metodologia ITT
+Unidad territorial: Comunas / Zonas de intervencion (definidas por GeoJSON)
+======================================================================
+
+OBJETIVO
+--------
+Definir indicadores que puedan calcularse por zona geografica (comuna,
+corredor, barrio) y medirse periodicamente para evaluar la transformacion
+economica del territorio.
+
+Los indicadores se calculan a partir de los datos del Registro Mercantil
+y se cruzan espacialmente con los poligonos de zona definidos en archivos
+GeoJSON (.zip).
+
+======================================================================
+DIMENSION 1: DINAMICA EMPRESARIAL (Peso sugerido: 30%)
+======================================================================
+
+1.1 Densidad empresarial
+    - Definicion: Numero de empresas activas por cada 1,000 habitantes
+    - Formula: (empresas_activas / poblacion_zona) * 1000
+    - Frecuencia: Anual (corte de renovacion)
+    - Tipo: Positivo (mayor = mejor)
+    - Fuente: Registro Mercantil + proyecciones DANE
+    - Variable RM: estado (activa), comuna/barrio
+
+1.2 Tasa de creacion empresarial
+    - Definicion: Empresas nuevas / Total empresas activas * 100
+    - Formula: (matriculas_nuevas_periodo / total_activas) * 100
+    - Frecuencia: Trimestral o anual
+    - Tipo: Positivo
+    - Fuente: Registro Mercantil (fecha_matricula)
+    - Variable RM: fecha inscripcion, tipo_registro
+
+1.3 Tasa de renovacion
+    - Definicion: Empresas que renovaron / Total empresas * 100
+    - Formula: (renovadas_periodo / total_registradas) * 100
+    - Frecuencia: Anual
+    - Tipo: Positivo (mayor renovacion = mayor formalidad)
+    - Fuente: Registro Mercantil (fecha_renovacion)
+    - Variable RM: fecha renovacion
+
+1.4 Tasa de mortalidad empresarial
+    - Definicion: Empresas que no renovaron en el periodo / Total periodo anterior
+    - Formula: (no_renovaron / total_periodo_anterior) * 100
+    - Frecuencia: Anual
+    - Tipo: Inverso (menor = mejor)
+    - Fuente: Registro Mercantil (comparacion entre periodos)
+
+======================================================================
+DIMENSION 2: INGRESOS Y PRODUCTIVIDAD (Peso sugerido: 25%)
+======================================================================
+
+2.1 Ingreso operacional promedio por empresa
+    - Definicion: Promedio de ingresos operacionales de empresas activas
+    - Formula: sum(ingresos_operacionales) / count(empresas_activas)
+    - Frecuencia: Anual
+    - Tipo: Positivo
+    - Fuente: Registro Mercantil
+    - Variable RM: ingresos_actividad_ordinaria
+
+2.2 Ingreso operacional mediano por empresa
+    - Definicion: Mediana de ingresos (menos sensible a outliers)
+    - Formula: median(ingresos_operacionales)
+    - Frecuencia: Anual
+    - Tipo: Positivo
+    - Fuente: Registro Mercantil
+    - Nota: Preferir mediana sobre promedio por alta asimetria
+
+2.3 Concentracion de ingresos (Gini empresarial)
+    - Definicion: Coeficiente de Gini de ingresos operacionales en la zona
+    - Formula: Gini(ingresos_operacionales_zona)
+    - Frecuencia: Anual
+    - Tipo: Inverso (menor concentracion = mejor distribucion)
+    - Rango: 0 (igualdad perfecta) a 1 (concentracion total)
+
+2.4 Proporcion de empresas con ingresos > 0
+    - Definicion: % de empresas que reportan ingresos positivos
+    - Formula: (empresas_ingresos > 0 / total_activas) * 100
+    - Frecuencia: Anual
+    - Tipo: Positivo
+    - Variable RM: ingresos_actividad_ordinaria
+
+======================================================================
+DIMENSION 3: EMPLEO FORMAL (Peso sugerido: 20%)
+======================================================================
+
+3.1 Empleo total generado en la zona
+    - Definicion: Suma de personal ocupado en empresas de la zona
+    - Formula: sum(personal_ocupado)
+    - Frecuencia: Anual
+    - Tipo: Positivo
+    - Variable RM: personal_ocupado
+
+3.2 Empleo promedio por empresa
+    - Definicion: Promedio de empleados por empresa activa
+    - Formula: sum(personal_ocupado) / count(empresas_activas)
+    - Frecuencia: Anual
+    - Tipo: Positivo
+    - Variable RM: personal_ocupado
+
+3.3 Indice de equidad de genero en empleo
+    - Definicion: Proporcion mujeres / total empleados
+    - Formula: sum(numero_de_mujeres) / sum(personal_ocupado) * 100
+    - Frecuencia: Anual
+    - Tipo: Positivo (cercano a 50% = mejor)
+    - Variable RM: numero_de_mujeres, numero_de_hombres, personal_ocupado
+    - Nota: Score optimo en 50%, penalizar desviaciones
+
+3.4 Tasa de empresas generadoras de empleo
+    - Definicion: % de empresas con al menos 1 empleado
+    - Formula: (empresas_personal > 0 / total_activas) * 100
+    - Frecuencia: Anual
+    - Tipo: Positivo
+    - Variable RM: personal_ocupado
+
+======================================================================
+DIMENSION 4: DIVERSIFICACION ECONOMICA (Peso sugerido: 15%)
+======================================================================
+
+4.1 Indice de diversificacion sectorial (Shannon)
+    - Definicion: Entropia de Shannon sobre sectores economicos
+    - Formula: -sum(pi * ln(pi)) donde pi = proporcion del sector i
+    - Frecuencia: Anual
+    - Tipo: Positivo (mayor diversificacion = menor riesgo)
+    - Variable RM: nombre_sector, codigo_ciiu
+
+4.2 Concentracion en sector dominante (HHI simplificado)
+    - Definicion: % de empresas en el sector mas grande
+    - Formula: max(conteo_sector) / total_empresas * 100
+    - Frecuencia: Anual
+    - Tipo: Inverso (menor concentracion = mejor)
+    - Variable RM: nombre_sector
+
+4.3 Numero de sectores economicos activos
+    - Definicion: Cantidad de sectores CIIU distintos con al menos 1 empresa
+    - Formula: count(distinct(nombre_sector)) where empresas > 0
+    - Frecuencia: Anual
+    - Tipo: Positivo
+    - Variable RM: nombre_sector, codigo_ciiu
+
+4.4 Proporcion de empresas en sectores de alto valor
+    - Definicion: % en sectores de mayor productividad (TIC, profesionales, salud)
+    - Formula: (empresas_alto_valor / total) * 100
+    - Frecuencia: Anual
+    - Tipo: Positivo
+    - Sectores alto valor: Informacion y Comunicaciones, Actividades Profesionales,
+      Actividades Financieras, Salud
+
+======================================================================
+DIMENSION 5: ESTRUCTURA EMPRESARIAL (Peso sugerido: 10%)
+======================================================================
+
+5.1 Proporcion por tamano (micro/pequena/mediana/grande)
+    - Definicion: Distribucion porcentual por tamano de empresa
+    - Formula: count(tamano_x) / total * 100
+    - Frecuencia: Anual
+    - Tipo: Descriptivo (seguimiento de transiciones)
+    - Variable RM: tamano957
+
+5.2 Tasa de crecimiento de PYMES
+    - Definicion: Variacion % de empresas pequenas+medianas respecto al periodo anterior
+    - Formula: ((pymes_actual - pymes_anterior) / pymes_anterior) * 100
+    - Frecuencia: Anual
+    - Tipo: Positivo
+    - Variable RM: tamano957
+
+5.3 Proporcion ESAL vs Mercantil
+    - Definicion: % de registros tipo ESAL sobre el total
+    - Formula: (esal / total) * 100
+    - Frecuencia: Anual
+    - Tipo: Descriptivo
+    - Variable RM: tipo_registro
+
+5.4 Proporcion Persona Juridica
+    - Definicion: % de personas juridicas sobre total
+    - Formula: (juridicas / total) * 100
+    - Frecuencia: Anual
+    - Tipo: Positivo (mayor formalizacion)
+    - Variable RM: categoria
+
+======================================================================
+IMPLEMENTACION ESPACIAL
+======================================================================
+
+Cruce con GeoJSON:
+- Cada empresa tiene direccion_comercial + comuna + barrio
+- Se geocodifica la direccion o se usa comuna/barrio como proxy
+- Se realiza spatial join con el poligono de zona (GeoJSON del .zip)
+- Los indicadores se calculan SOLO para empresas dentro del poligono
+
+Archivos GeoJSON esperados:
+- Poligonos de comunas de Cali (39 comunas)
+- Poligonos de zonas de intervencion (Roosevelt, Av Ciudad de Cali, etc.)
+- Buffers de corredores viales
+- CRS: EPSG:4326 o EPSG:3115 (MAGNA-SIRGAS Colombia Oeste)
+
+Periodicidad de medicion:
+- Corte principal: Anual (cierre de renovacion, tipicamente marzo-abril)
+- Corte secundario: Trimestral (para tasa de creacion)
+- Comparabilidad: Mismo periodo de corte cada ano
+
+======================================================================
+NORMALIZACION COMPATIBLE CON ITT
+======================================================================
+
+Para integrar estos indicadores al ITT existente, usar la misma formula:
+
+  score = clamp((valor - ref_min) / (ref_max - ref_min) * 100, 0, 100)
+
+  Si es inverso: score = 100 - score
+
+Ejemplo de refs sugeridos (zona mediana, 10K-50K hab):
+
+| Indicador                    | ref_min | ref_max | Tipo    |
+|------------------------------|---------|---------|---------|
+| Densidad empresarial         | 5       | 80      | Positivo|
+| Tasa creacion empresarial    | 2%      | 25%     | Positivo|
+| Tasa renovacion              | 50%     | 95%     | Positivo|
+| Ingreso mediano (millones)   | 0       | 500     | Positivo|
+| Empleo promedio por empresa  | 0.5     | 10      | Positivo|
+| Equidad genero (desv de 50%) | 0%      | 40%     | Inverso |
+| Diversificacion Shannon      | 0.5     | 3.0     | Positivo|
+| Concentracion sector domin.  | 15%     | 80%     | Inverso |
+| Tasa crecimiento PYMES       | -10%    | 30%     | Positivo|
+| Proporcion ingresos > 0      | 20%     | 80%     | Positivo|
+
+======================================================================
+INDICE COMPUESTO SUGERIDO (ITE - Indice de Transformacion Economica)
+======================================================================
+
+ITE = 0.30 * Dinamica_Empresarial
+    + 0.25 * Ingresos_Productividad
+    + 0.20 * Empleo_Formal
+    + 0.15 * Diversificacion
+    + 0.10 * Estructura_Empresarial
+
+Clasificacion:
+| Rango   | Nivel | Descripcion                                    |
+|---------|-------|------------------------------------------------|
+| 0 - 40  | 1     | Economia fragil, alta informalidad             |
+| 40 - 60 | 2     | Economia en consolidacion                      |
+| 60 - 80 | 3     | Economia dinamica con base formal solida       |
+| 80 - 100| 4     | Economia transformada y diversificada          |
+
+======================================================================
+NOTAS FINALES
+======================================================================
+
+- Todos los indicadores son calculables con los datos del Registro Mercantil
+- La geocodificacion por comuna/barrio permite el cruce espacial inmediato
+- Para mayor precision, geocodificar direccion_comercial a coordenadas
+- Los indicadores son comparables entre zonas si se usan los mismos refs
+- La periodicidad anual permite construir serie historica desde 2023
+- Compatible con la metodologia ITT vigente (ref_min/ref_max fijos)
+- El ITE puede integrarse como dimension adicional del ITT o usarse
+  de forma independiente
+
+======================================================================
