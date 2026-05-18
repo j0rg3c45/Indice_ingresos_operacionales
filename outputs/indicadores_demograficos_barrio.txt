@@ -1,0 +1,129 @@
+====================================================================================================
+INDICADORES DEMOGRAFICOS + ECONOMICOS POR BARRIO - Cali
+Cruce: Registro Mercantil 2025 + Personas por Hogar (Censo 2016)
+Fecha: 2026-05-18 12:39:44
+====================================================================================================
+
+----------------------------------------------------------------------------------------------------
+INDICADORES CALCULADOS Y SU RELEVANCIA
+----------------------------------------------------------------------------------------------------
+
+1. EMPRESAS POR 1000 HABITANTES
+   Formula: (total_empresas / poblacion) * 1000
+   Relevancia: Mide la densidad empresarial relativa a la poblacion.
+   Uso: Identificar barrios con alta/baja actividad economica per capita.
+   Seguimiento: Comparar entre periodos para medir dinamismo empresarial.
+
+2. EMPLEO POR 1000 HABITANTES
+   Formula: (empleo_total / poblacion) * 1000
+   Relevancia: Identifica polos de empleo vs barrios dormitorio.
+   Uso: Planificacion de transporte y movilidad laboral.
+   Seguimiento: Medir si las intervenciones generan empleo local.
+
+3. INGRESOS PER CAPITA
+   Formula: ingresos_total / poblacion
+   Relevancia: Productividad economica del territorio por habitante.
+   Uso: Comparar nivel economico entre barrios independiente del tamano.
+   Seguimiento: Medir crecimiento economico territorial.
+
+4. PERSONAS POR EMPRESA
+   Formula: poblacion / total_empresas
+   Relevancia: Cobertura comercial. Menos personas/empresa = mas oferta.
+   Uso: Identificar desiertos comerciales (barrios sin oferta).
+   Seguimiento: Medir si se cierra la brecha de acceso a servicios.
+
+5. EMPLEO POR HOGAR
+   Formula: empleo_total / hogares
+   Relevancia: Autosuficiencia economica del barrio.
+   Uso: Si > 1, el barrio exporta empleo. Si < 1, depende de otros.
+   Seguimiento: Medir si las zonas se vuelven autosuficientes.
+
+6. EMPRESAS POR VIVIENDA
+   Formula: total_empresas / viviendas
+   Relevancia: Mixtura de uso del suelo (comercial vs residencial).
+   Uso: Planificacion urbana y zonificacion.
+   Seguimiento: Medir transformacion del uso del suelo.
+
+----------------------------------------------------------------------------------------------------
+TOP 20 BARRIOS - EMPRESAS POR 1000 HABITANTES
+----------------------------------------------------------------------------------------------------
+Barrio                         Comuna  Poblacion  Empresas  Emp/1000hab
+----------------------------------------------------------------------------------------------------
+Unicentro Cali                     17          1       447     447000.0
+El Gran Limonar                    17          1       366     366000.0
+Versalles                           2         10     1,046     104600.0
+Centenario                          2         11     1,077      97909.1
+El Ingenio                         17         16     1,202      75125.0
+La Flora                            2         23     1,718      74695.7
+Santa Teresita                      2         10       585      58500.0
+La Hacienda                        17         12       688      57333.3
+San Vicente                         2         34     1,830      53823.5
+Nueva Tequendama                   19         19       881      46368.4
+Lili                               17         63     2,642      41936.5
+San Pedro                           3        107     4,137      38663.6
+San Fernando Nuevo                 19         25       746      29840.0
+Ciudad Capri                       17         38       996      26210.5
+Santa Rita                          2          9       199      22111.1
+Vipasa                              2         49       709      14469.4
+Bosques Del Limonar                17         19       237      12473.7
+San Fernando Viejo                 19         93     1,130      12150.5
+Granada                             2        104     1,242      11942.3
+El Limonar                         17         95     1,101      11589.5
+
+----------------------------------------------------------------------------------------------------
+TOP 20 BARRIOS - EMPLEO POR 1000 HABITANTES
+----------------------------------------------------------------------------------------------------
+Barrio                         Comuna  Poblacion   Empleo  Emp/1000hab
+----------------------------------------------------------------------------------------------------
+El Gran Limonar                    17          1    5,143    5143000.0
+Versalles                           2         10   29,792    2979200.0
+Unicentro Cali                     17          1    2,962    2962000.0
+San Vicente                         2         34   36,426    1071352.9
+La Flora                            2         23   23,471    1020478.3
+Centenario                          2         11    6,029     548090.9
+San Fernando Nuevo                 19         25    8,681     347240.0
+El Ingenio                         17         16    3,804     237750.0
+Nueva Tequendama                   19         19    3,870     203684.2
+Santa Teresita                      2         10    1,928     192800.0
+Santa Isabel                       19         47    7,977     169723.4
+San Pedro                           3        107   16,184     151252.3
+Santa Rita                          2          9    1,071     119000.0
+La Hacienda                        17         12    1,244     103666.7
+San Fernando Viejo                 19         93    9,518     102344.1
+Senderos De La Flora                2         20    1,875      93750.0
+Granada                             2        104    9,459      90951.9
+La Merced                           3        119    9,936      83495.8
+Ciudad Capri                       17         38    2,859      75236.8
+Bosques Del Limonar                17         19    1,382      72736.8
+
+----------------------------------------------------------------------------------------------------
+PROMEDIO DE INDICADORES POR COMUNA
+----------------------------------------------------------------------------------------------------
+Comuna  Emp/1000hab  Empleo/1000hab  Pers/Empresa  Empleo/Hogar
+----------------------------------------------------------------------------------------------------
+    17      87834.3        728625.6           0.2        781.73
+     2      29178.9        390550.4           2.9        712.55
+    19      10188.6         74407.7           0.9        161.00
+    22       8431.0         28827.6           0.1         92.89
+     3       3803.3         20758.2           5.8         42.28
+    16       1554.0          5329.4          16.5         20.96
+     5        665.0           847.3           7.3          2.22
+    10        610.9          1272.5           8.0          3.33
+     9        366.4          1253.1           6.4          3.19
+     4        315.9          2794.8          16.0          8.50
+     8        129.5           875.0           9.1          2.57
+    18        111.9           141.1         369.6          0.42
+    11         63.4           113.8          33.1          0.35
+    20         62.9            62.7         126.3          0.19
+    12         49.4            85.3          25.8          0.27
+    21         38.8            68.9          60.7          0.25
+     7         37.3           178.8          66.1          0.58
+    14         32.5            42.2          49.3          0.15
+     6         32.0            38.3          39.4          0.12
+    13         27.9            34.6         116.6          0.12
+     1         25.4            32.2         152.0          0.11
+    15         13.9            14.8          79.1          0.05
+
+====================================================================================================
+FIN DEL REPORTE
+====================================================================================================
