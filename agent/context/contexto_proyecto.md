@@ -38,18 +38,29 @@ Este proyecto alimenta la **dimension economica** del ITT. Los indicadores deriv
 - CRS: EPSG:4326
 - Columnas: comuna (int), nombre, area, geometry
 
+### Shapefile demografico - Personas por Hogar
+- Archivo: `data/info_geo/Personas_por_hogar_según_barrio_2016.zip`
+- Formato: Shapefile (EPSG:6249, se reproyecta a 4326)
+- Registros: 334 barrios
+- Variables: poblacion total, hombres, mujeres, viviendas, hogares, personas por hogar
+- Fuente: Censo 2016
+
 ## Estado actual de implementacion
 
 | Componente | Estado | Archivo |
 |-----------|--------|---------|
 | Analisis exploratorio | Completo | notebooks_py/01_analisis_exploratorio.py |
-| Carga datos + mapas | Completo | notebooks_py/02_carga_datos_mapa.ipynb |
-| Indicadores por comuna | Completo | Calculados en notebook 02 |
-| Cruce con GeoJSON | Completo | 22 comunas mapeadas |
+| Carga datos + mapas comunas | Completo | notebooks_py/02_carga_datos_mapa.ipynb |
+| Indicadores demograficos barrio | Completo | notebooks_py/03_indicadores_demograficos_barrio.py |
+| Indicadores ingresos comuna | Completo | notebooks_py/03_indicadores_ingresos_comuna.ipynb |
+| Cruce con GeoJSON comunas | Completo | 22 comunas mapeadas |
+| Cruce con shapefile barrios | Completo | 211 barrios cruzados |
 | Mapas coropleticos | Completo | Estaticos (PNG) + interactivo (HTML) |
 | Reporte EDA | Completo | outputs/reporte_analisis_exploratorio.txt |
 | Reporte consolidado | Completo | outputs/consolidado.txt |
-| Indicadores territorio | Propuesta | outputs/indicadores_territorio_cali.txt |
+| Indicadores territorio | Completo | outputs/indicadores_territorio_cali.txt |
+| Indicadores demograficos | Completo | outputs/indicadores_demograficos_barrio.txt |
+| Indicadores ingresos comuna | Completo | outputs/indicadores_ingresos_comuna.txt |
 | Indice compuesto | Pendiente | Por definir formula y ponderaciones |
 | Seguimiento temporal | Pendiente | Requiere datos de multiples periodos |
 
@@ -63,6 +74,23 @@ Este proyecto alimenta la **dimension economica** del ITT. Los indicadores deriv
 - Top sector: Comercio al por mayor y menor (35.3%)
 - Ingreso promedio: $1,148M (sesgado por grandes empresas)
 - Ingreso mediana: $0 (mayoria sin ingresos reportados)
+- Mediana empresas/1000hab por barrio: 107
+- Mediana empleo/hogar: 0.62 (mayoria de barrios son dependientes)
+
+## Indicadores clave implementados
+
+### Por comuna (desde Registro Mercantil)
+- total_empresas, ingresos_promedio, ingresos_mediana, ingresos_total
+- empleo_total, empleo_promedio, pct_micro, n_ciiu_distintos
+- pct_con_ingresos, ingresos_prom_activas
+
+### Cruzados con demografia (por barrio y comuna)
+- empresas_por_1000hab: densidad empresarial relativa
+- empleo_por_1000hab: polos de empleo vs dormitorios
+- ingresos_per_capita: productividad economica territorial
+- personas_por_empresa: cobertura comercial
+- empleo_por_hogar: autosuficiencia economica (>1 = polo)
+- empresas_por_vivienda: mixtura de uso del suelo
 
 ## Entorno de ejecucion
 

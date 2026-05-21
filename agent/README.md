@@ -21,8 +21,15 @@
 # Instalar dependencias del proyecto
 uv pip install -r requirements.txt
 
-# Ejecutar script de analisis
-uv run notebooks_py/01_analisis_exploratorio.py
+# Ejecutar analisis exploratorio (genera EDA + consolidado + graficos resumen)
+C:\Users\Jorge\.venv\Scripts\python.exe notebooks_py/01_analisis_exploratorio.py
+
+# Ejecutar indicadores demograficos por barrio
+C:\Users\Jorge\.venv\Scripts\python.exe notebooks_py/03_indicadores_demograficos_barrio.py
+
+# Notebooks (ejecutar en Jupyter o Colab):
+# - notebooks_py/02_carga_datos_mapa.ipynb
+# - notebooks_py/03_indicadores_ingresos_comuna.ipynb
 ```
 
 ## Dependencias instaladas
@@ -30,6 +37,8 @@ uv run notebooks_py/01_analisis_exploratorio.py
 - pandas, openpyxl (lectura de datos)
 - numpy (calculo numerico)
 - matplotlib, seaborn (visualizacion)
+- geopandas (datos geoespaciales)
+- folium, mapclassify (mapas interactivos)
 - scikit-learn (analisis estadistico)
 
 ## Convenciones del proyecto
