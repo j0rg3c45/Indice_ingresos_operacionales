@@ -45,6 +45,15 @@ Este proyecto alimenta la **dimension economica** del ITT. Los indicadores deriv
 - Variables: poblacion total, hombres, mujeres, viviendas, hogares, personas por hogar
 - Fuente: Censo 2016
 
+### Registro Mercantil con Coordenadas
+- Carpeta: `data/registro_mercantil_2025_con_coordenadas/`
+- Formatos disponibles:
+  - GeoJSON: `geojson_registro_mercantil_2025_con_coordenadas/registro_mercantil_2025_con_coordenadas.geojson`
+  - Shapefile: `shape_registro_mercantil_2025_con_coordenadas/registro_mercantil_2025_con_coordenadas.shp`
+  - Excel: `registro_mercantil_2025_con_coordenadas.xlsx`
+- Contenido: Registro Mercantil geocodificado (cada empresa con coordenadas X, Y)
+- Uso: Permite analisis espacial puntual (heatmaps, clusters, spatial join directo)
+
 ## Estado actual de implementacion
 
 | Componente | Estado | Archivo |
