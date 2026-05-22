@@ -156,3 +156,121 @@ nombre_sector                         3          0.00
 ====================================================================================================
 FIN DEL REPORTE CONSOLIDADO
 ====================================================================================================
+
+====================================================================================================
+11. PROPUESTA DE INDICADORES - DIMENSION DE ACTIVIDAD ECONOMICA
+====================================================================================================
+
+Propuesta presentada por el profesor Carlos Federico Vallejo, construida a partir de tres sesiones
+de trabajo entre el equipo de Gobierno de Datos y la Secretaria de Desarrollo Economico.
+Fuente base: Registros de la Camara de Comercio de Cali.
+
+----------------------------------------------------------------------------------------------------
+11.1 VIABILIDAD CON DATOS ACTUALES (Registro Mercantil 2025)
+----------------------------------------------------------------------------------------------------
+
+Subdimension                  Viable?    Variables disponibles                    Limitaciones
+----------------------------------------------------------------------------------------------------
+Entrada empresarial           PARCIAL    fecha_matricula, comuna, coordenadas     Solo un corte (2025), no hay serie
+                                                                                  historica para variacion interanual
+Persistencia empresarial      PARCIAL    fecha_renovacion, fecha_matricula        Solo aparecen los que SI renovaron;
+                                                                                  no se puede medir no-renovacion real
+Mortalidad / Salida           NO         (no disponible)                          No hay datos de cancelaciones ni
+                                                                                  liquidaciones en este dataset
+Transformacion sectorial      SI         codigo_ciiu, desc_ciiu, nombre_sector,   Completo para un corte. Para tendencia
+                                         comuna, personal_ocupado                 se necesitan datos de otros anos
+Escalamiento empresarial      NO         (requiere datos longitudinales)          Necesita mismo NIT en multiples anos
+                                                                                  para medir transiciones micro->pequena
+Intensidad economica          SI         ingresos_actividad_ordinaria, comuna     Ya calculado. Para tasa de crecimiento
+                                                                                  se necesita otro periodo
+Empleo formal                 PARCIAL    personal_ocupado, num_hombres,           No hay contraste con UGPP ni
+                                         num_mujeres, comuna                     indicadores de formalidad laboral
+
+----------------------------------------------------------------------------------------------------
+11.2 INDICADORES IMPLEMENTABLES HOY (con datos actuales)
+----------------------------------------------------------------------------------------------------
+
+ENTRADA EMPRESARIAL:
+  - Tasa de nuevas matriculas por comuna
+    Formula: (matriculas_2024_2025 / total_empresas) * 100
+    Datos: fecha_matricula filtrada a 2024-2025
+  - Densidad de nuevas empresas por hectarea
+    Formula: nuevas_matriculas / area_comuna_ha
+    Datos: fecha_matricula + GeoJSON de comunas (area)
+  - Distribucion espacial de nuevas empresas (con coordenadas)
+    Datos: registro_mercantil_2025_con_coordenadas.geojson
+
+PERSISTENCIA EMPRESARIAL:
+  - Tasa de renovacion 2025
+    Formula: (empresas_con_renovacion_2025 / total_empresas) * 100
+    Datos: fecha_renovacion en marzo 2025
+  - Antiguedad promedio por comuna
+    Formula: 2025 - ano_matricula (promedio por comuna)
+    Datos: fecha_matricula
+
+TRANSFORMACION SECTORIAL:
+  - Participacion porcentual por CIIU y comuna
+    Formula: (empresas_ciiu_X_comuna_Y / total_empresas_comuna_Y) * 100
+  - Indice de diversificacion Shannon
+    Formula: H = -SUM(pi * ln(pi)) donde pi = proporcion de cada CIIU en la comuna
+    Interpretacion: Mayor H = economia mas diversificada y resiliente
+  - Indice HHI (concentracion)
+    Formula: HHI = SUM(pi^2) donde pi = proporcion de cada CIIU
+    Interpretacion: HHI cercano a 0 = diversificado; cercano a 1 = concentrado
+  - Empleo generado por sector y comuna
+
+INTENSIDAD ECONOMICA:
+  - Ingresos promedio por empresa (ya calculado)
+  - Ingresos promedio de empresas activas (ya calculado, excluye $0)
+  - % empresas con ingresos > $0 (ya calculado)
+  - Ingresos per capita por comuna (ya calculado, cruce con demografia)
+
+EMPLEO FORMAL:
+  - Empleos formales por comuna (ya calculado)
+  - Empleo por 1000 habitantes (ya calculado)
+  - Ratio hombres/mujeres por comuna
+    Formula: numero_de_hombres / numero_de_mujeres
+  - Empleo por hogar (ya calculado)
+    Formula: empleo_total / hogares
+
+----------------------------------------------------------------------------------------------------
+11.3 INDICADORES QUE REQUIEREN DATOS ADICIONALES
+----------------------------------------------------------------------------------------------------
+
+Indicador                              Dato faltante                         Fuente sugerida
+----------------------------------------------------------------------------------------------------
+Variacion interanual de matriculas     Registro Mercantil anos anteriores    Camara de Comercio
+Tasa de cancelaciones                  Dataset de cancelaciones              Camara de Comercio
+Cancelaciones netas por tamano         Cancelaciones + tamano historico      Camara de Comercio
+Escalamiento micro->pequena            Datos longitudinales (NIT)            Camara de Comercio
+Tasa de crecimiento de ingresos        Ingresos de periodos anteriores       Camara de Comercio
+Formalidad laboral (UGPP)              Registros UGPP                        Min. Trabajo / UGPP
+No renovacion real                     Lista de NO renovados                 Camara de Comercio
+
+----------------------------------------------------------------------------------------------------
+11.4 RESUMEN DE VIABILIDAD
+----------------------------------------------------------------------------------------------------
+
+  Subdimensiones totales propuestas:     7
+  Implementables hoy (total o parcial):  5  (Entrada, Persistencia, Transformacion, Intensidad, Empleo)
+  No implementables sin datos nuevos:    2  (Mortalidad/Salida, Escalamiento)
+
+  Indicadores ya calculados en este proyecto:
+    - Ingresos promedio por comuna (total y solo activas)
+    - % empresas con ingresos > $0
+    - Empleo total y por 1000 hab
+    - Empleo por hogar
+    - Ingresos per capita
+    - Diversidad CIIU (conteo)
+    - Densidad empresarial (empresas/ha y empresas/1000hab)
+
+  Indicadores nuevos a implementar:
+    - Tasa de nuevas matriculas (requiere parsear fechas)
+    - Indice Shannon de diversificacion
+    - Indice HHI de concentracion
+    - Antiguedad promedio por comuna
+    - Ratio empleo hombres/mujeres
+
+====================================================================================================
+FIN DEL REPORTE CONSOLIDADO
+====================================================================================================
